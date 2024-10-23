@@ -3,6 +3,22 @@
   <POU Name="MAIN" Id="{15fbb585-11c9-4699-9955-d1015ca58186}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	//Taak 1 is het verzamelen van een order
+	Order_verzamellijst : BOOL :=  FALSE //Geeft aan of er een order is geprint
+	Order_verzameld : BOOL ; FALSE // Geeft aan of de order is verzameld
+	Order_controleren : BOOL := FALSE //Geeft aan of de order de laastste conrtole heeft bereikt
+	Order_ingepakt_krat : BOOL ; FALSE // Geeft aan of de order ingepakt is
+	
+	//Functie is het controleren van de order
+	Route_compleet_voor_transport : BOOL := FALSE // Geeft aan of de route compleet is en de chaffeur mag rijden 
+	
+	//Taak 2 is het transporteren van de order
+	Krat_ingeladen : BOOL := FALSE // Geeft aan of het krat is ingeladen in de bus 
+	Bus_starten : BOOL := FALSE // Geeft aan of de bus gestart is en de order afgeleverd kan worden
+	Order_afleveren : BOOL := FALSE // Geeft aan of de order is afgeleverd
+
+	
+	
 END_VAR
 ]]></Declaration>
     <Implementation>

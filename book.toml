@@ -3,7 +3,6 @@ authors = ["Thijs Dijkman"]
 language = "en"
 multilingual = false
 src = "src"
-title = "Documentation"
 
 [preprocessor.plantuml]
 plantuml-cmd="http://localhost:8080"
