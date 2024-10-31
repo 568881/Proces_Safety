@@ -3,74 +3,14 @@
   <POU Name="MAIN" Id="{43e3017f-627c-4840-9fbf-4ac1b0bd345f}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	currentState : Task_1 := Task_1.Nieuwe_order;   
-	NieuweOrderVanGaragist : BOOL := TRUE;	
-	VoorraadAdministratief : BOOL;           
-    PrintOrderList: BOOL;
-	OrderVerzameld: BOOL;
-	controleOK : BOOL ;                
-	VoorraadWerkelijk: BOOL;
-	InpakkenOrder: BOOL;
-	OrderCompleet : BOOL;
-	OrderGeannuleerd : BOOL;
 	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE currentState OF
-    Task_1.Nieuwe_order:
-        // Nieuwe bestelling van een garagist
-        IF NieuweOrderVanGaragist = TRUE THEN
-            currentState := Voorraad_controle;
-        END_IF
-
-    Task_1.Voorraad_controle:
-        // Controleren voorraad
-        IF VoorraadAdministratief THEN
-            currentState := Order_magazijn; //Op voorraad
-        ELSE
-            currentState := Geannuleerd;  // Niet op voorraad (administratief)
-        END_IF
-
-    Task_1.Order_magazijn:
-        // Order wordt naar het magezijn gestuurd en een orderverzamellijst wordt geprint
-        PrintOrderList := TRUE;            // Trigger prderverzamellijst 
-        currentState := Order_uitgeprint;
-
-    Task_1.Order_uitgeprint:
-        // Wachten tot order is verzmald
-        IF OrderVerzameld THEN
-            currentState := Order_verzameld;
-        END_IF
-
-    Task_1.Order_verzameld:
-        // Controleren of artikelen overeenkomen met de orderverzamellijst
-        IF controleOK THEN
-            currentState := Order_voltooid;  // Goedgekeurd
-        ELSE
-            IF VoorraadWerkelijk THEN
-                currentState := Order_verzameld;  // Afgekeurd door pakfout
-            ELSE
-                currentState := Geannuleerd;      // Niet op voorraad (werkelijk)
-            END_IF
-        END_IF
-
-    Task_1.Order_voltooid:
-        // Artikelen en pakbon inpakken
-        InpakkenOrder := TRUE;			// Trigger inpakken
-        currentState := Order_ingepakt;
-
-    Task_1.Order_ingepakt:
-        OrderCompleet := TRUE;            // Order is compleet
-
-    Task_1.Geannuleerd:
-        OrderGeannuleerd := TRUE;           // Order is geannuleerd
-END_CASE
-]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="154" Count="48" />
-      <LineId Id="7" Count="0" />
+      <LineId Id="372" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
