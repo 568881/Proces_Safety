@@ -3,16 +3,11 @@
   <DUT Name="Task_1" Id="{1b4acdbb-dead-4f52-ba94-f5c5c1cf4e46}">
     <Declaration><![CDATA[TYPE Task_1 :
 	(
-		Nieuwe_order,
-		Voorraad_controle,
-		Order_magazijn,
-		Order_uitgeprint,
-		Order_verzameld,
-		Order_controle,
-		Order_voltooid,
-		Order_ingepakt,
-		Geannuleerd
-	) := Nieuwe_order;
+		NieuweOrderGaragist,
+		VoorraadAdministratief,
+		VerzamelingArtikelen,
+		OrderGeanuleerd
+	) := NieuweOrderGaragist;
 END_TYPE
 
 ]]></Declaration>
