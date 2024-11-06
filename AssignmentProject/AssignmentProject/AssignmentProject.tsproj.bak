@@ -10,7 +10,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{A15680ED-FB1F-4BB3-979F-BA819522C7AF}" Name="FourceAutomotivePLC" PrjFilePath="FourceAutomotivePLC\FourceAutomotivePLC.plcproj" TmcFilePath="FourceAutomotivePLC\FourceAutomotivePLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{74A1EDA3-CDEC-EFCC-DA04-C90521BD1625}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="FourceAutomotivePLC\FourceAutomotivePLC.tmc" TmcHash="{FF1F2F18-2441-8C3D-01E7-028491A1DD18}">
 					<Name>FourceAutomotivePLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>

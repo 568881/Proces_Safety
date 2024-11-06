@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="GVL_FourceAutomotive" Id="{72a56437-473c-43d9-83eb-ace9b52d7e13}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	currentState : Task_1 := Task_1.NieuweOrderGaragist;   
+	Nieuwe_order: BOOL := TRUE;
+	Controleren_voorraad: INT := 0;
+	Order_magazijn: BOOL;
+	Order_uitgeprint: BOOL;
+	Order_verzameld: BOOL; 
+	Geannuleerd: BOOL;
+	Order_controle: INT :=0;
+	Order_voltooid: BOOL;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

@@ -5,19 +5,17 @@
 VAR
 	currentState : Taks_2 : Task_2.Inladen;
 	
+	Result: INT;
+	IsTimeGreaterThan10: INT;
+	UserInputTime: INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE currentState OF
-	Task_2.Inladen:
-	//Inladen van de order die is verwerkt in taak 1
-	IF 
-END_CASE]]></ST>
+      <ST><![CDATA[
+]]></ST>
     </Implementation>
     <LineIds Name="Transporteren_order">
-      <LineId Id="5" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="10" Count="1" />
+      <LineId Id="23" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
   </POU>

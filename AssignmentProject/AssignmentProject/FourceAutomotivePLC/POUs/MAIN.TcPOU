@@ -3,14 +3,22 @@
   <POU Name="MAIN" Id="{43e3017f-627c-4840-9fbf-4ac1b0bd345f}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	
+	currentState : Task_1 := Task_1.NieuweOrderGaragist;   
+	Nieuwe_order: BOOL := TRUE;
+	Controleren_voorraad: INT := 0;
+	Order_magazijn: BOOL;
+	Order_uitgeprint: BOOL;
+	Order_verzameld: BOOL; 
+	Geannuleerd: BOOL;
+	Order_controle: INT :=0;
+	Order_voltooid: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="372" Count="0" />
+      <LineId Id="486" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
