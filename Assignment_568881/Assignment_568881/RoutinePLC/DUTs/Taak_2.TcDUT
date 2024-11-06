@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="Taak_2" Id="{5a82a080-f46b-4cfc-a059-90891e7b3d47}">
+    <Declaration><![CDATA[TYPE Taak_2 :
+	(
+		functie,
+		Inladen,
+		Transport,
+		Afleveren
+	) := Inladen;
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

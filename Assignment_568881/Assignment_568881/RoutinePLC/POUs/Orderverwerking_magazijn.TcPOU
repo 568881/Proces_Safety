@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Orderverwerking_magazijn" Id="{83129f9a-16c0-43eb-8cf6-9fe7bb84c598}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Orderverwerking_magazijn
+VAR
+	currentState : Taak_1 := Taak_1.NieuweOrderGaragist;   
+	Nieuwe_order: BOOL := TRUE;
+	Controleren_voorraad: INT := 0;
+	Order_magazijn: BOOL;
+	Order_uitgeprint: BOOL;
+	Order_verzameld: BOOL; 
+	Geannuleerd: BOOL;
+	Order_controle: INT :=0;
+	Order_voltooid: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE currentState OF
+    Taak_1.NieuweOrderGaragist:
+        // Nieuwe bestelling van een garagist
+        IF Nieuwe_order = TRUE THEN
+            currentState := VoorraadAdministratief;
+        END_IF;
+		
+	Taak_1.VoorraadAdministratief:
+		// Controleren of de voorraad klopt (Adminastratief)
+		IF Controleren_voorraad = 1 THEN
+			Order_magazijn := TRUE;
+			Order_uitgeprint := TRUE;
+			Order_verzameld := TRUE;
+			Geannuleerd := FALSE;
+			currentState := VerzamelingArtikelen;
+		ELSIF Controleren_voorraad = 2 THEN
+			Order_magazijn := FALSE;
+			Order_uitgeprint := FALSE;
+			Order_verzameld := FALSE;
+			Geannuleerd := TRUE;
+		END_IF
+	
+		
+	Taak_1.VerzamelingArtikelen:
+	// Controleren of de verzamelde artikelen overeenkomen met de Orderverzamellijst
+		IF Order_controle = 1 THEN
+			Order_voltooid := TRUE;
+			Geannuleerd := FALSE;
+		ELSIF Order_controle = 2 THEN
+			Order_voltooid := FALSE;
+			Geannuleerd := FALSE;
+		ELSIF Order_controle = 3 THEN
+			Order_voltooid := FALSE;
+			Geannuleerd := TRUE;			
+		END_IF
+		
+END_CASE;]]></ST>
+    </Implementation>
+    <LineIds Name="Orderverwerking_magazijn">
+      <LineId Id="18" Count="35" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

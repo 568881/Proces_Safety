@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Transporteren_order" Id="{00baf4e9-3cbf-4d61-b5e6-c471975a92d7}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Transporteren_order
+VAR
+	currentState : Taak_2 := Taak_2.Functie;
+	Huidige_tijd: INT ;
+	Controleren_tijd: BOOL;
+	Wachten: BOOL;
+	Inladen_krat: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Controleren_tijd :=POU(Huidige_tijd);   
+
+CASE currentState OF
+	Taak_2.Functie:
+		IF Controleren_tijd = TRUE THEN
+			CurrentState := taak_2.inladen;
+			Wachten := FALSE;
+		ELSIF Controleren_tijd = FALSE THEN
+			Wachten := TRUE;
+			CurrentState := taak_2.Functie;
+		END_IF
+	
+	Taak_2.Inladen:
+		IF Controleren_tijd = TRUE THEN
+			Inladen_krat := TRUE;
+		ELSIF Controleren_tijd = FALSE THEN
+			Wachten:= TRUE;
+			CurrentState := taak_2.Functie;
+			Inladen_krat := FALSE;
+		END_IF
+		
+			
+		
+END_CASE
+]]></ST>
+    </Implementation>
+    <LineIds Name="Transporteren_order">
+      <LineId Id="76" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="90" Count="1" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="102" Count="1" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="106" Count="1" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="11" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="POU" Id="{7365f783-f984-4baf-ae0c-23fcb59f0d1e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION POU : BOOL
+VAR_INPUT
+  Huidige_tijd : INT; //Invoer van de tijd
+END_VAR 
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+IF (Huidige_tijd >= 0) AND (Huidige_tijd <= 2400) THEN
+	IF Huidige_tijd >= 1000 THEN
+		POU := TRUE;
+	ELSE
+		POU := FALSE;
+	END_IF
+ELSE
+	POU := FALSE; //Geeft aan dat de ingevoerde tijd ongeldig is
+END_IF;]]></ST>
+    </Implementation>
+    <LineIds Name="POU">
+      <LineId Id="24" Count="0" />
+      <LineId Id="11" Count="7" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
