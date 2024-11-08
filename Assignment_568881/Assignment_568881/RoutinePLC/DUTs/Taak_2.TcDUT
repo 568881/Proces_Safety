@@ -6,7 +6,8 @@
 		functie,
 		Inladen,
 		Transport,
-		Afleveren
+		Afleveren,
+		Retour
 	) := Inladen;
 END_TYPE
 ]]></Declaration>

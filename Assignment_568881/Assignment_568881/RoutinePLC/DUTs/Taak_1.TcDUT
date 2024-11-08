@@ -6,7 +6,8 @@
 		NieuweOrderGaragist,
 		VoorraadAdministratief,
 		VerzamelingArtikelen,
-		OrderGeanuleerd
+		OrderGeannuleerd,
+		OrderVoltooid
 	) := NieuweOrderGaragist;
 END_TYPE
 ]]></Declaration>

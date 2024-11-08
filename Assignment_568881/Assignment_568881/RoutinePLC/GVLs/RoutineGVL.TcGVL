@@ -3,6 +3,7 @@
   <GVL Name="RoutineGVL" Id="{64b44ac4-4791-4ed5-8f1b-f157180fe6f0}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
+
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

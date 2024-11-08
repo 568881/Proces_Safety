@@ -4,14 +4,20 @@
     <Declaration><![CDATA[PROGRAM Orderverwerking_magazijn
 VAR
 	currentState : Taak_1 := Taak_1.NieuweOrderGaragist;   
-	Nieuwe_order: BOOL := TRUE;
-	Controleren_voorraad: INT := 0;
+	Nieuwe_order: BOOL ;
 	Order_magazijn: BOOL;
 	Order_uitgeprint: BOOL;
+	Timer : TON;
+	WachtTijd : INT;
 	Order_verzameld: BOOL; 
 	Geannuleerd: BOOL;
-	Order_controle: INT :=0;
 	Order_voltooid: BOOL;
+	Taak1Reset: BOOL;
+	Pakfout: BOOL;
+	WelOpVoorraad: BOOL;
+	NietOpVoorraad: BOOL;
+	Correct: BOOL;
+	Incorrect: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -24,38 +30,115 @@ END_VAR
 		
 	Taak_1.VoorraadAdministratief:
 		// Controleren of de voorraad klopt (Adminastratief)
-		IF Controleren_voorraad = 1 THEN
+		IF WelOpVoorraad = TRUE AND Nieuwe_order = TRUE THEN
 			Order_magazijn := TRUE;
 			Order_uitgeprint := TRUE;
-			Order_verzameld := TRUE;
-			Geannuleerd := FALSE;
-			currentState := VerzamelingArtikelen;
-		ELSIF Controleren_voorraad = 2 THEN
-			Order_magazijn := FALSE;
-			Order_uitgeprint := FALSE;
-			Order_verzameld := FALSE;
-			Geannuleerd := TRUE;
+			Timer(IN:=TRUE, PT:=T#5S); 
+			IF Timer.Q = TRUE THEN
+				Order_verzameld := TRUE;
+				Geannuleerd := FALSE;
+				currentState := VerzamelingArtikelen;
+				
+			END_IF	
+			
+		ELSIF NietOpVoorraad = TRUE THEN
+			currentState := OrderGeannuleerd;
 		END_IF
 	
 		
 	Taak_1.VerzamelingArtikelen:
 	// Controleren of de verzamelde artikelen overeenkomen met de Orderverzamellijst
-		IF Order_controle = 1 THEN
-			Order_voltooid := TRUE;
-			Geannuleerd := FALSE;
-		ELSIF Order_controle = 2 THEN
-			Order_voltooid := FALSE;
-			Geannuleerd := FALSE;
-		ELSIF Order_controle = 3 THEN
-			Order_voltooid := FALSE;
-			Geannuleerd := TRUE;			
+		IF Correct = TRUE THEN
+			currentState := OrderVoltooid;
+		ELSIF Incorrect = TRUE THEN
+			currentState := OrderGeannuleerd;
+		ELSIF Pakfout = TRUE THEN
+			Pakfout:= TRUE;
 		END_IF
 		
-END_CASE;]]></ST>
+	Taak_1.OrderVoltooid:
+			Nieuwe_order := FALSE;
+			WelOpVoorraad := FALSE;
+			NietOpVoorraad := FALSE;
+			Order_magazijn := FALSE;
+			Order_uitgeprint := FALSE;
+			Timer(IN:=FALSE);
+			Order_verzameld := FALSE;	
+			Pakfout:= FALSE;
+			Order_voltooid := TRUE;		
+	
+	Taak_1.OrderGeannuleerd:
+			Nieuwe_order := FALSE;
+			WelOpVoorraad := FALSE;
+			NietOpVoorraad := FALSE;
+			Order_magazijn := FALSE;
+			Order_uitgeprint := FALSE;
+			Timer(IN:=FALSE);
+			Order_verzameld := FALSE;
+			Pakfout:= FALSE;
+			Geannuleerd := TRUE;
+		
+END_CASE;
+IF Taak1Reset = TRUE THEN
+	currentState := Taak_1.NieuweOrderGaragist;
+	Nieuwe_order := FALSE;
+	WelOpVoorraad := FALSE;
+	NietOpVoorraad := FALSE;
+	Order_magazijn := FALSE;
+	Order_uitgeprint := FALSE;
+	Timer(IN:=FALSE);
+	Order_verzameld := FALSE;
+	Order_voltooid := FALSE;
+	Geannuleerd := FALSE;
+	Taak1Reset := FALSE;
+	Pakfout:= FALSE;
+END_IF
+WachtTijd := TIME_TO_INT(timer.ET) / 1000;
+]]></ST>
     </Implementation>
     <LineIds Name="Orderverwerking_magazijn">
-      <LineId Id="18" Count="35" />
+      <LineId Id="18" Count="11" />
+      <LineId Id="70" Count="1" />
+      <LineId Id="74" Count="1" />
+      <LineId Id="72" Count="1" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="32" Count="1" />
+      <LineId Id="37" Count="7" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="149" Count="0" />
+      <LineId Id="148" Count="0" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="111" Count="1" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="113" Count="1" />
+      <LineId Id="145" Count="0" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="133" Count="0" />
+      <LineId Id="131" Count="0" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="125" Count="4" />
+      <LineId Id="146" Count="0" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="134" Count="0" />
+      <LineId Id="132" Count="0" />
+      <LineId Id="124" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="136" Count="4" />
+      <LineId Id="147" Count="0" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="142" Count="0" />
+      <LineId Id="144" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
