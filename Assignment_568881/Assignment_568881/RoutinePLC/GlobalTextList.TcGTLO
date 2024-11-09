@@ -46,6 +46,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"995"</v>
+              <v n="TextDefault">"Afleveren order bij klant"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"376"</v>
               <v n="TextDefault">"Afleveren voltooid"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -56,8 +61,18 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"195"</v>
+              <v n="TextDefault">"Controle t.o.v. orderverzamellijst"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"223"</v>
               <v n="TextDefault">"CORRECT"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"103"</v>
+              <v n="TextDefault">"Heenweg transport"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -98,6 +113,11 @@
             <o>
               <v n="TextID">"648"</v>
               <v n="TextDefault">"Nieuwe Order"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"818"</v>
+              <v n="TextDefault">"Nieuwe order"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -166,6 +186,16 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"218"</v>
+              <v n="TextDefault">"Resultaat controle"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"783"</v>
+              <v n="TextDefault">"Resultaat order"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"277"</v>
               <v n="TextDefault">"Retour naar vestiging"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -188,6 +218,21 @@
             <o>
               <v n="TextID">"820"</v>
               <v n="TextDefault">"Voor 10:00"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"26"</v>
+              <v n="TextDefault">"Voorbereiding transport"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"650"</v>
+              <v n="TextDefault">"Voorraad Controle (administratief)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"326"</v>
+              <v n="TextDefault">"Voorraad Controle administratief"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>

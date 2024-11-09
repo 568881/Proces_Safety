@@ -4,10 +4,8 @@
     <Declaration><![CDATA[PROGRAM Transporteren_order
 VAR
 	currentState : Taak_2 := Taak_2.Functie;
-	Huidige_tijd: INT := 800;
+	Huidige_tijd: INT;
 	Controleren_tijd : BOOL;
-	Na10Uur: BOOL;
-	Voor10Uur: BOOL;
 	Wachten: BOOL;
 	Inladen_krat: BOOL;
 	Start_transport: BOOL;
@@ -23,107 +21,99 @@ VAR
 	Retour_vestiging: BOOL;
 	Taak2Reset: BOOL;
 
-	WachtTijd_1: INT;
-	WachtTijd_2: INT;
+	WachtTijd_taak_2_1: INT;
+	WachtTijd_taak_2_2: INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[Controleren_tijd :=POU(Huidige_tijd);   
+      <ST><![CDATA[RoutineGVL.Controleren_tijd :=POU(RoutineGVl.Huidige_tijd);   
 
 CASE currentState OF
+	// Het gebruiken van de functie om de tijd te controleren
 	Taak_2.Functie:
-		IF Controleren_tijd = TRUE THEN
-			CurrentState := taak_2.inladen;
-			Na10Uur := TRUE;
-			Wachten := FALSE;
-			Voor10Uur := FALSE;
-		ELSIF Controleren_tijd = FALSE THEN
-			Wachten := TRUE;
-			Na10Uur := FALSE;
-			Voor10Uur := TRUE;
+		IF RoutineGVL.Controleren_tijd = TRUE THEN
+			CurrentState := taak_2.inladen; 
+			RoutineGVL.Wachten := FALSE;
+		ELSIF RoutineGVL.Controleren_tijd = FALSE THEN
+			RoutineGVL.Wachten := TRUE;
 			CurrentState := taak_2.Functie;
 		END_IF
 	
 	Taak_2.Inladen:
-		IF Controleren_tijd = TRUE THEN
-			Inladen_krat := TRUE;
-			Wachten := FALSE;
+		IF RoutineGVL.Controleren_tijd = TRUE THEN
+			RoutineGVL.Inladen_krat := TRUE; //Krat laden in bus
+			RoutineGVL.Wachten := FALSE; 
 			CurrentState := Taak_2.Transport;
 		ELSIF Controleren_tijd = FALSE THEN
-			Wachten:= TRUE;
+			RoutineGVL.Wachten:= TRUE;//Wachten tot 10:00
 			CurrentState := taak_2.Functie;
-			Inladen_krat := FALSE;
+			RoutineGVL.Inladen_krat := FALSE;
 		END_IF
 		
 	Taak_2.Transport:
-		Start_transport := TRUE; 
-		Timer_1(IN:=TRUE, PT:=T#5S); 
-		IF Timer_1.Q = TRUE THEN
+		RoutineGVL.Start_transport := TRUE; // Rijden naar garagist
+		RoutineGVL.Timer_1(IN:=TRUE, PT:=T#5S); //Timer simuleert rijtijd naar de klant
+		IF RoutineGVL.Timer_1.Q = TRUE THEN
 			CurrentState := taak_2.Afleveren;
-			Locatie := TRUE;
-			Timer_1(IN:=FALSE);
+			RoutineGVL.Locatie := TRUE; // Aangekomen op locatie
+			RoutineGVL.Timer_1(IN:=FALSE);
 		END_IF
 	
 	Taak_2.Afleveren:	
-		Afleveren := TRUE;
-		IF Klant_aanwezig = TRUE THEN
-			Afleveren_voltooid := TRUE;
-			Afleveren_mislukt := FALSE;
-			Timer_2(IN:=TRUE, PT:=T#5S); 
-			IF Timer_2.Q = TRUE THEN
+		RoutineGVL.Afleveren := TRUE;
+		IF RoutineGVL.Klant_aanwezig = TRUE THEN //Artikelen en pakbon afleveren
+			RoutineGVL.Afleveren_voltooid := TRUE;
+			RoutineGVL.Afleveren_mislukt := FALSE;
+			RoutineGVL.Timer_2(IN:=TRUE, PT:=T#5S); //Timer simuleert rijtijd naar de vestiging
+			IF RoutineGVL.Timer_2.Q = TRUE THEN
 				CurrentState := taak_2.Retour;
-				Timer_2(IN:=FALSE);
+				RoutineGVL.Timer_2(IN:=FALSE);
 			END_IF
-		ELSIF Klant_afwezig = TRUE THEN
-			Afleveren_mislukt := TRUE;
-			Afleveren_voltooid := FALSE;
-			Timer_2(IN:=TRUE, PT:=T#5S); 
-			IF Timer_2.Q = TRUE THEN
+		ELSIF RoutineGVL.Klant_afwezig = TRUE THEN //Order retour nemen
+			RoutineGVL.Afleveren_mislukt := TRUE;
+			RoutineGVL.Afleveren_voltooid := FALSE;
+			RoutineGVL.Timer_2(IN:=TRUE, PT:=T#5S); //Timer simuleert rijtijd naar de vestiging
+			IF RoutineGVL.Timer_2.Q = TRUE THEN
 				CurrentState := taak_2.Retour;
-				Timer_2(IN:=FALSE);
+				RoutineGVL.Timer_2(IN:=FALSE);
 			END_IF	
 		END_IF 
 	Taak_2.Retour:
-		Retour_vestiging :=TRUE;
+		RoutineGVL.Retour_vestiging :=TRUE; // Terug bij vestiging
 END_CASE
 
-
-IF Taak2Reset = TRUE THEN
+// Het resetten van de taak 
+IF RoutineGVL.Taak2Reset = TRUE THEN
 	CurrentState := taak_2.Functie;
-	Huidige_tijd := 800;
-	Na10Uur := FALSE;
-	Wachten := FALSE;
-	Voor10Uur := FALSE;
-	Inladen_krat := FALSE;
-	Start_transport := FALSE;
-	Timer_1(IN:=FALSE);
-	Timer_2(IN:=FALSE);
-	Locatie := FALSE;
-	Afleveren := FALSE;
-	Klant_aanwezig := FALSE;
-	Klant_afwezig := FALSE;
-	Afleveren_voltooid := FALSE;
-	Afleveren_mislukt := FALSE;
-	Retour_vestiging := FALSE;
-	Taak2Reset := FALSE;
+	RoutineGVL.Huidige_tijd := 800;
+	RoutineGVL.Wachten := FALSE;
+	RoutineGVL.Inladen_krat := FALSE;
+	RoutineGVL.Start_transport := FALSE;
+	RoutineGVL.Timer_1(IN:=FALSE);
+	RoutineGVL.Timer_2(IN:=FALSE);
+	RoutineGVL.Locatie := FALSE;
+	RoutineGVL.Afleveren := FALSE;
+	RoutineGVL.Klant_aanwezig := FALSE;
+	RoutineGVL.Klant_afwezig := FALSE;
+	RoutineGVL.Afleveren_voltooid := FALSE;
+	RoutineGVL.Afleveren_mislukt := FALSE;
+	RoutineGVL.Retour_vestiging := FALSE;
+	RoutineGVL.Taak2Reset := FALSE;
 END_IF
-WachtTijd_1 := TIME_TO_INT(timer_1.ET) / 1000;
-WachtTijd_2 := TIME_TO_INT(timer_2.ET) / 1000;]]></ST>
+RoutineGVL.WachtTijd_taak_2_1 := TIME_TO_INT(RoutineGVL.Timer_1.ET) / 1000; // De tijd omzetten in een integer voor de progressbar
+RoutineGVL.WachtTijd_taak_2_2 := TIME_TO_INT(RoutineGVL.Timer_2.ET) / 1000; // De tijd omzetten in een integer voor de progressbar]]></ST>
     </Implementation>
     <LineIds Name="Transporteren_order">
       <LineId Id="76" Count="0" />
       <LineId Id="78" Count="0" />
       <LineId Id="74" Count="0" />
+      <LineId Id="285" Count="0" />
       <LineId Id="96" Count="0" />
       <LineId Id="79" Count="0" />
       <LineId Id="81" Count="0" />
-      <LineId Id="238" Count="0" />
       <LineId Id="89" Count="0" />
-      <LineId Id="253" Count="0" />
       <LineId Id="84" Count="0" />
       <LineId Id="87" Count="0" />
-      <LineId Id="252" Count="0" />
-      <LineId Id="239" Count="0" />
       <LineId Id="99" Count="0" />
       <LineId Id="82" Count="0" />
       <LineId Id="90" Count="1" />
@@ -159,8 +149,7 @@ WachtTijd_2 := TIME_TO_INT(timer_2.ET) / 1000;]]></ST>
       <LineId Id="11" Count="0" />
       <LineId Id="183" Count="0" />
       <LineId Id="193" Count="0" />
-      <LineId Id="258" Count="1" />
-      <LineId Id="257" Count="0" />
+      <LineId Id="259" Count="0" />
       <LineId Id="184" Count="0" />
       <LineId Id="187" Count="0" />
       <LineId Id="230" Count="0" />

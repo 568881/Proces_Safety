@@ -8,20 +8,18 @@ END_VAR
 
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-IF (Huidige_tijd >= 0) AND (Huidige_tijd <= 2400) THEN
+      <ST><![CDATA[IF (Huidige_tijd >= 0) AND (Huidige_tijd <= 2400) THEN
 	IF Huidige_tijd >= 1000 THEN
-		POU := TRUE;
+		POU := TRUE; // Order is klaar voor transport
 	ELSE
-		POU := FALSE;
+		POU := FALSE; // Order is niet klaar voor transport
 	END_IF
 ELSE
 	POU := FALSE; //Geeft aan dat de ingevoerde tijd ongeldig is
-END_IF;]]></ST>
+END_IF]]></ST>
     </Implementation>
     <LineIds Name="POU">
-      <LineId Id="24" Count="0" />
-      <LineId Id="11" Count="7" />
+      <LineId Id="27" Count="7" />
       <LineId Id="7" Count="0" />
     </LineIds>
   </POU>

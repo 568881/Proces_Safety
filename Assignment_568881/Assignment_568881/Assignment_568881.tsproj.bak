@@ -10,7 +10,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{65EA3EDD-8BEA-4C7C-8D76-B07F0B25DF53}" Name="RoutinePLC" PrjFilePath="RoutinePLC\RoutinePLC.plcproj" TmcFilePath="RoutinePLC\RoutinePLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RoutinePLC\RoutinePLC.tmc" TmcHash="{D5B3FA2F-7CEC-4CF7-AB55-329F5915E6E6}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="RoutinePLC\RoutinePLC.tmc" TmcHash="{00B5FF9F-5B4E-6DA6-3F9A-540A61D46FB5}">
 					<Name>RoutinePLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>

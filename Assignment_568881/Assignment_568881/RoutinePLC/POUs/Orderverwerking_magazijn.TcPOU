@@ -8,7 +8,7 @@ VAR
 	Order_magazijn: BOOL;
 	Order_uitgeprint: BOOL;
 	Timer : TON;
-	WachtTijd : INT;
+	WachtTijd_taak_1 : INT;
 	Order_verzameld: BOOL; 
 	Geannuleerd: BOOL;
 	Order_voltooid: BOOL;
@@ -24,83 +24,85 @@ END_VAR
       <ST><![CDATA[CASE currentState OF
     Taak_1.NieuweOrderGaragist:
         // Nieuwe bestelling van een garagist
-        IF Nieuwe_order = TRUE THEN
+        IF RoutineGVL.Nieuwe_order = TRUE THEN
             currentState := VoorraadAdministratief;
         END_IF;
 		
 	Taak_1.VoorraadAdministratief:
 		// Controleren of de voorraad klopt (Adminastratief)
-		IF WelOpVoorraad = TRUE AND Nieuwe_order = TRUE THEN
-			Order_magazijn := TRUE;
-			Order_uitgeprint := TRUE;
-			Timer(IN:=TRUE, PT:=T#5S); 
-			IF Timer.Q = TRUE THEN
-				Order_verzameld := TRUE;
-				Geannuleerd := FALSE;
+		IF RoutineGVL.WelOpVoorraad = TRUE AND RoutineGVL.Nieuwe_order = TRUE THEN // Op Voorraad
+			RoutineGVL.Order_magazijn := TRUE;
+			RoutineGVL.Order_uitgeprint := TRUE;
+			RoutineGVL.Timer_taak_1(IN:=TRUE, PT:=T#5S); // Timer simuleert het verzamelen van de artikelen
+			IF RoutineGVL.Timer_taak_1.Q = TRUE THEN
+				RoutineGVL.Order_verzameld := TRUE;
+				RoutineGVL.Geannuleerd := FALSE;
 				currentState := VerzamelingArtikelen;
-				
 			END_IF	
 			
-		ELSIF NietOpVoorraad = TRUE THEN
+		ELSIF RoutineGVL.NietOpVoorraad = TRUE THEN // Niet op voorraad (administratief)
 			currentState := OrderGeannuleerd;
 		END_IF
 	
 		
 	Taak_1.VerzamelingArtikelen:
-	// Controleren of de verzamelde artikelen overeenkomen met de Orderverzamellijst
-		IF Correct = TRUE THEN
+	// Controleren of de verzamelde artikelen overeenkomen met de orderverzamellijst
+		IF RoutineGVL.Correct = TRUE THEN //Goedekeurd, print pakbon en artikelen inpakken
 			currentState := OrderVoltooid;
-		ELSIF Incorrect = TRUE THEN
+		ELSIF RoutineGVL.Incorrect = TRUE THEN // Niet op voorraad (werkelijke voorraad)
 			currentState := OrderGeannuleerd;
-		ELSIF Pakfout = TRUE THEN
-			Pakfout:= TRUE;
+		ELSIF RoutineGVL.Pakfout = TRUE THEN //Pakfout, opnieuw verzamelen
+			RoutineGVL.Pakfout:= TRUE;
 		END_IF
 		
-	Taak_1.OrderVoltooid:
-			Nieuwe_order := FALSE;
-			WelOpVoorraad := FALSE;
-			NietOpVoorraad := FALSE;
-			Order_magazijn := FALSE;
-			Order_uitgeprint := FALSE;
-			Timer(IN:=FALSE);
-			Order_verzameld := FALSE;	
-			Pakfout:= FALSE;
-			Order_voltooid := TRUE;		
+	// Order verwerking in magazijn afgerond	
+	Taak_1.OrderVoltooid: 
+			RoutineGVL.Nieuwe_order := FALSE;
+			RoutineGVL.WelOpVoorraad := FALSE;
+			RoutineGVL.NietOpVoorraad := FALSE;
+			RoutineGVL.Order_magazijn := FALSE;
+			RoutineGVL.Order_uitgeprint := FALSE;
+			RoutineGVL.Timer_taak_1(IN:=FALSE);
+			RoutineGVL.Order_verzameld := FALSE;	
+			RoutineGVL.Pakfout:= FALSE;
+			RoutineGVL.Order_voltooid := TRUE;		
 	
+	// Geannulleerd
 	Taak_1.OrderGeannuleerd:
-			Nieuwe_order := FALSE;
-			WelOpVoorraad := FALSE;
-			NietOpVoorraad := FALSE;
-			Order_magazijn := FALSE;
-			Order_uitgeprint := FALSE;
-			Timer(IN:=FALSE);
-			Order_verzameld := FALSE;
-			Pakfout:= FALSE;
-			Geannuleerd := TRUE;
+			RoutineGVL.Nieuwe_order := FALSE;
+			RoutineGVL.WelOpVoorraad := FALSE;
+			RoutineGVL.NietOpVoorraad := FALSE;
+			RoutineGVL.Order_magazijn := FALSE;
+			RoutineGVL.Order_uitgeprint := FALSE;
+			RoutineGVL.Timer_taak_1(IN:=FALSE);
+			RoutineGVL.Order_verzameld := FALSE;
+			RoutineGVL.Pakfout:= FALSE;
+			RoutineGVL.Geannuleerd := TRUE;
 		
 END_CASE;
-IF Taak1Reset = TRUE THEN
+// Het resetten van de taak 
+IF RoutineGVL.Taak1Reset = TRUE THEN
 	currentState := Taak_1.NieuweOrderGaragist;
-	Nieuwe_order := FALSE;
-	WelOpVoorraad := FALSE;
-	NietOpVoorraad := FALSE;
-	Order_magazijn := FALSE;
-	Order_uitgeprint := FALSE;
-	Timer(IN:=FALSE);
-	Order_verzameld := FALSE;
-	Order_voltooid := FALSE;
-	Geannuleerd := FALSE;
-	Taak1Reset := FALSE;
-	Pakfout:= FALSE;
+	RoutineGVL.Nieuwe_order := FALSE;
+	RoutineGVL.WelOpVoorraad := FALSE;
+	RoutineGVL.NietOpVoorraad := FALSE;
+	RoutineGVL.Order_magazijn := FALSE;
+	RoutineGVL.Order_uitgeprint := FALSE;
+	RoutineGVL.Timer_taak_1(IN:=FALSE);
+	RoutineGVL.Order_verzameld := FALSE;
+	RoutineGVL.Order_voltooid := FALSE;
+	RoutineGVL.Geannuleerd := FALSE;
+	RoutineGVL.Taak1Reset := FALSE;
+	RoutineGVL.Pakfout:= FALSE;
 END_IF
-WachtTijd := TIME_TO_INT(timer.ET) / 1000;
+RoutineGVL.WachtTijd_taak_1 := TIME_TO_INT(RoutineGVL.Timer_taak_1.ET) / 1000; // De tijd omzetten in een integer voor de progressbar
 ]]></ST>
     </Implementation>
     <LineIds Name="Orderverwerking_magazijn">
       <LineId Id="18" Count="11" />
       <LineId Id="70" Count="1" />
       <LineId Id="74" Count="1" />
-      <LineId Id="72" Count="1" />
+      <LineId Id="72" Count="0" />
       <LineId Id="69" Count="0" />
       <LineId Id="32" Count="1" />
       <LineId Id="37" Count="7" />
@@ -109,6 +111,7 @@ WachtTijd := TIME_TO_INT(timer.ET) / 1000;
       <LineId Id="148" Count="0" />
       <LineId Id="94" Count="0" />
       <LineId Id="52" Count="0" />
+      <LineId Id="169" Count="0" />
       <LineId Id="130" Count="0" />
       <LineId Id="108" Count="0" />
       <LineId Id="111" Count="1" />
@@ -119,6 +122,7 @@ WachtTijd := TIME_TO_INT(timer.ET) / 1000;
       <LineId Id="133" Count="0" />
       <LineId Id="131" Count="0" />
       <LineId Id="110" Count="0" />
+      <LineId Id="170" Count="0" />
       <LineId Id="122" Count="0" />
       <LineId Id="125" Count="4" />
       <LineId Id="146" Count="0" />
@@ -127,6 +131,7 @@ WachtTijd := TIME_TO_INT(timer.ET) / 1000;
       <LineId Id="132" Count="0" />
       <LineId Id="124" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="171" Count="0" />
       <LineId Id="76" Count="0" />
       <LineId Id="89" Count="0" />
       <LineId Id="136" Count="4" />

@@ -3,7 +3,40 @@
   <GVL Name="RoutineGVL" Id="{64b44ac4-4791-4ed5-8f1b-f157180fe6f0}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
-
+// TAAK 1
+	Nieuwe_order: BOOL ;
+	Order_magazijn: BOOL;
+	Order_uitgeprint: BOOL;
+	Timer_taak_1 : TON;
+	WachtTijd_taak_1 : INT;
+	Order_verzameld: BOOL; 
+	Geannuleerd: BOOL;
+	Order_voltooid: BOOL;
+	Taak1Reset: BOOL;
+	Pakfout: BOOL;
+	WelOpVoorraad: BOOL;
+	NietOpVoorraad: BOOL;
+	Correct: BOOL;
+	Incorrect: BOOL;
+	
+// TAAK 2
+	Huidige_tijd: INT := 800;
+	Controleren_tijd : BOOL;
+	Wachten: BOOL;
+	Inladen_krat: BOOL;
+	Start_transport: BOOL;
+	Timer_1 : TON;
+	Timer_2 : TON;
+	Locatie: BOOL;
+	Afleveren : BOOL;
+	Klant_aanwezig: BOOL;
+	Klant_afwezig: BOOL;
+	Afleveren_voltooid: BOOL;
+	Afleveren_mislukt: BOOL;
+	Retour_vestiging: BOOL;
+	Taak2Reset: BOOL;
+	WachtTijd_taak_2_1: INT;
+	WachtTijd_taak_2_2: INT;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
