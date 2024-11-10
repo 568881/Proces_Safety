@@ -6,4 +6,3 @@
 - [Function](./4.Function.md)
 - [Sequence Diagram Tasks](./5.SequenceDiagram_Tasks.md)
 - [Sequence Diagram Function](./6.SequenceDiagram_Functions.md)
-- [Sequence Diagram Function](./8.SequenceDiagram_Functions.md)

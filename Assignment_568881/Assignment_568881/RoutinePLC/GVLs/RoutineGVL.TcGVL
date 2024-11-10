@@ -20,7 +20,7 @@ VAR_GLOBAL
 	Incorrect: BOOL;
 	
 // TAAK 2
-	Huidige_tijd: INT := 800;
+	Huidige_tijd: INT := 800; // *00 staat voor 8;00, dat is de tijd dat de werkdag begint
 	Controleren_tijd : BOOL;
 	Wachten: BOOL;
 	Inladen_krat: BOOL;
